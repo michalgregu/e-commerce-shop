@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import {
 	Container,
@@ -12,31 +12,28 @@ import {
 
 import { auth, handleUserProfile } from '../../firebase/utils';
 
-const initialState = {
-	displayName: '',
-	email: '',
-	password: '',
-	confirmPassword: '',
-	err: false,
-};
+const Registration = props => {
+	const [displayName, setDisplayName] = useState('');
+	const [email, setEmail] = useState('');
+	const [password, setPassword] = useState('');
+	const [confirmPassword, setConfirmPassword] = useState('');
+	const [error, setError] = useState(false);
 
-export class Registration extends Component {
-	state = { ...initialState };
-
-	handleChange = e => {
-		const { name, value } = e.target;
-		this.setState({ [name]: value });
+	const reset = () => {
+		setDisplayName('');
+		setEmail('');
+		setPassword('');
+		setConfirmPassword('');
+		setError(false);
 	};
 
-	handleSubmit = async e => {
+	const handleSubmit = async e => {
 		e.preventDefault();
-		const { displayName, email, password, confirmPassword } = this.state;
 
 		if (password !== confirmPassword) {
-			this.setState({ err: true });
+			setError(true);
 			return;
 		}
-
 		try {
 			const { user } = await auth.createUserWithEmailAndPassword(
 				email,
@@ -45,76 +42,72 @@ export class Registration extends Component {
 
 			await handleUserProfile(user, { displayName });
 
-			this.setState({ ...initialState });
+			reset();
 		} catch (err) {
 			console.log(err);
 		}
 	};
 
-	render() {
-		const { displayName, email, password, confirmPassword, err } = this.state;
-
-		return (
-			<StyledContainer>
-				<Segment>
-					<Header textAlign='center' as='h1'>
-						Register
-					</Header>
-					<Form error={err} onSubmit={this.handleSubmit}>
-						<Form.Field>
-							<label>Full Name</label>
-							<input
-								required
-								placeholder='Full Name'
-								name='displayName'
-								value={displayName}
-								onChange={this.handleChange}
-							/>
-						</Form.Field>
-						<Form.Field>
-							<label>Email</label>
-							<input
-								type='email'
-								required
-								placeholder='Email'
-								name='email'
-								value={email}
-								onChange={this.handleChange}
-							/>
-						</Form.Field>
-						<Form.Field>
-							<label>Password</label>
-							<input
-								required
-								placeholder='Password'
-								type='password'
-								name='password'
-								value={password}
-								onChange={this.handleChange}
-							/>
-						</Form.Field>
-						<Form.Field>
-							<label>Confirm Password</label>
-							<input
-								required
-								placeholder='Confirm Password'
-								type='password'
-								name='confirmPassword'
-								value={confirmPassword}
-								onChange={this.handleChange}
-							/>
-							<Message error header='Passwords do not match!' />
-						</Form.Field>
-						<Form.Field>
-							<Checkbox label='I agree to the Terms and Conditions' />
-						</Form.Field>
-						<Button type='submit'>Submit</Button>
-					</Form>
-				</Segment>
-			</StyledContainer>
-		);
-	}
-}
+	return (
+		<StyledContainer>
+			<Segment>
+				<Header textAlign='center' as='h1'>
+					Register
+				</Header>
+				<Form error={error} onSubmit={handleSubmit}>
+					<Form.Field>
+						<label>Full Name</label>
+						<input
+							required
+							placeholder='Full Name'
+							name='displayName'
+							value={displayName}
+							onChange={e => setDisplayName(e.target.value)}
+						/>
+					</Form.Field>
+					<Form.Field>
+						<label>Email</label>
+						<input
+							type='email'
+							required
+							placeholder='Email'
+							name='email'
+							value={email}
+							onChange={e => setEmail(e.target.value)}
+						/>
+					</Form.Field>
+					<Form.Field>
+						<label>Password</label>
+						<input
+							required
+							placeholder='Password'
+							type='password'
+							name='password'
+							value={password}
+							onChange={e => setPassword(e.target.value)}
+						/>
+					</Form.Field>
+					<Form.Field>
+						<label>Confirm Password</label>
+						<input
+							required
+							placeholder='Confirm Password'
+							type='password'
+							name='confirmPassword'
+							value={confirmPassword}
+							onChange={e => setConfirmPassword(e.target.value)}
+						/>
+						<Message error header='Passwords do not match!' />
+					</Form.Field>
+					<Form.Field>
+						<Checkbox label='I agree to the Terms and Conditions' />
+					</Form.Field>
+					<Button type='submit'>Submit</Button>
+				</Form>
+			</Segment>
+		</StyledContainer>
+	);
+};
 
 export default Registration;
 

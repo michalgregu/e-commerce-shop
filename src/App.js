@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import { auth, handleUserProfile } from './firebase/utils';
 
@@ -9,6 +9,8 @@ import Login from './components/pages/Login';
 import Recovery from './components/pages/Recovery';
 
 class App extends Component {
+	const [currentUser,setCurrentUser] = useState(null)
+	
 	state = { currentUser: null };
 
 	authListener = null;
