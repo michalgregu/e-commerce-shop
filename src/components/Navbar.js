@@ -33,7 +33,10 @@ function Navbar(props) {
 
 			<Menu.Menu position='right'>
 				{currentUser && (
-					<Menu.Item name='Logout' link onClick={() => auth.signOut()} />
+					<>
+						<Menu.Item name='Dashboard' link onClick={goDashboard} />
+						<Menu.Item name='Logout' link onClick={() => auth.signOut()} />
+					</>
 				)}
 
 				{!currentUser && (

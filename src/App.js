@@ -68,7 +68,7 @@ const App = props => {
 			<Route
 				path='/dashboard'
 				render={routeProps => (
-					<WithAuth {...routeProps} currentUser={currentUser}>
+					<WithAuth currentUser={currentUser}>
 						<Dashboard />
 					</WithAuth>
 				)}
