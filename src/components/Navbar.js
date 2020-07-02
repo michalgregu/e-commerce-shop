@@ -1,27 +1,55 @@
 import React from 'react';
-import { Menu, Input } from 'semantic-ui-react';
+import styled from 'styled-components';
+import { useHistory } from 'react-router-dom';
+import { Menu } from 'semantic-ui-react';
+import { auth } from './../firebase/utils';
 
-function Navbar() {
+function Navbar(props) {
+	const { currentUser } = props;
+
+	const history = useHistory();
+
+	function goHome() {
+		history.push('/');
+	}
+
+	function goLogin() {
+		history.push('/login');
+	}
+
+	function goRegister() {
+		history.push('/register');
+	}
+
 	return (
-		<Menu size='huge'>
-			<Menu.Item header>Michcio Vinyl Shop</Menu.Item>
+		<StyledMenu size='huge'>
+			<Menu.Item header link onClick={goHome}>
+				Michcio Vinyl Shop
+			</Menu.Item>
 
 			<Menu.Menu position='right'>
-				<Menu.Item
-					name='Login'
-					link
-					// active={activeItem === 'jobs'}
-					// onClick={this.handleItemClick}
-				/>
-				<Menu.Item
-					name='My Cart'
-					link
-					// active={activeItem === 'locations'}
-					// onClick={this.handleItemClick}
-				/>
+				{currentUser && (
+					<Menu.Item name='Logout' link onClick={() => auth.signOut()} />
+				)}
+
+				{!currentUser && (
+					<>
+						<Menu.Item name='Register' link onClick={goRegister} />
+						<Menu.Item name='Login' link onClick={goLogin} />
+					</>
+				)}
+				<Menu.Item name='My Cart' link />
 			</Menu.Menu>
-		</Menu>
+		</StyledMenu>
 	);
 }
 
+Navbar.defaultProps = {
+	currentUser: null,
+};
+
 export default Navbar;
+
+const StyledMenu = styled(Menu)`
+	padding: 0 300px;
+`;

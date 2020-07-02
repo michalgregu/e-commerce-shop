@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import ReactAudioPlayer from 'react-audio-player';
 
-import { Card, Icon, Image, Button, Label } from 'semantic-ui-react';
+import { Card, Icon, Image, Button } from 'semantic-ui-react';
 
 function ProductCard({ item }) {
 	const {
@@ -37,7 +37,7 @@ function ProductCard({ item }) {
 				}
 			/>
 			<Card.Content>
-				<Card.Header className={{ marginBottom: '20px' }}>{title}</Card.Header>
+				<Card.Header>{title}</Card.Header>
 				<Card.Header>by {author}</Card.Header>
 				<Card.Meta>
 					<span className='date'>genre: {genre}</span>

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Query } from 'react-apollo';
-import { Grid, Container } from 'semantic-ui-react';
+import { Grid } from 'semantic-ui-react';
 
 import PRODUCTS from './products/index';
 import ProductCard from './ProductCard';
