@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 import styled from 'styled-components';
 import {
@@ -8,7 +9,6 @@ import {
 	Header,
 	Container,
 	Icon,
-	Checkbox,
 	Divider,
 } from 'semantic-ui-react';
 
@@ -53,6 +53,7 @@ class Login extends Component {
 						<Form.Field>
 							<Label>Email</Label>
 							<input
+								type='email'
 								value={email}
 								name='email'
 								placeholder='Email'
@@ -71,6 +72,7 @@ class Login extends Component {
 						</Form.Field>
 
 						<Button type='submit'>Login</Button>
+						<StyledLink to='/recovery'>Reset your password</StyledLink>
 						<Divider horizontal>Or</Divider>
 						<Button color='google plus' icon onClick={signInWithGoogle}>
 							<Icon name='google' /> Sign In With Google
@@ -90,4 +92,11 @@ const StyledContainer = styled(Container)`
 
 const Label = styled.label`
 	text-align: left;
+`;
+
+const StyledLink = styled(Link)`
+	display: block;
+	color: black;
+	margin-top: 1rem;
+	font-size: 0.9rem;
 `;

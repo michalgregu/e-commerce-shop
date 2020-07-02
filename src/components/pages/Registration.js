@@ -74,6 +74,7 @@ export class Registration extends Component {
 						<Form.Field>
 							<label>Email</label>
 							<input
+								type='email'
 								required
 								placeholder='Email'
 								name='email'

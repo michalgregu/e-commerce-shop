@@ -6,6 +6,7 @@ import Navbar from './components/Navbar';
 import Homepage from './components/pages/Homepage';
 import Registration from './components/pages/Registration';
 import Login from './components/pages/Login';
+import Recovery from './components/pages/Recovery';
 
 class App extends Component {
 	state = { currentUser: null };
@@ -67,6 +68,7 @@ class App extends Component {
 						)
 					}
 				/>
+				<Route path='/recovery' render={() => <Recovery />} />
 			</>
 		);
 	}
