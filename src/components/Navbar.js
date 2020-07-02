@@ -21,6 +21,10 @@ function Navbar(props) {
 		history.push('/register');
 	}
 
+	function goDashboard() {
+		history.push('/dashboard');
+	}
+
 	return (
 		<StyledMenu size='huge'>
 			<Menu.Item header link onClick={goHome}>
@@ -34,6 +38,7 @@ function Navbar(props) {
 
 				{!currentUser && (
 					<>
+						<Menu.Item name='Dashboard' link onClick={goDashboard} />
 						<Menu.Item name='Register' link onClick={goRegister} />
 						<Menu.Item name='Login' link onClick={goLogin} />
 					</>
