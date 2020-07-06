@@ -6,7 +6,6 @@ import { Card, Icon, Image, Button } from 'semantic-ui-react';
 
 function ProductCard({ item }) {
 	const {
-		id,
 		author,
 		title,
 		format,

@@ -3,6 +3,7 @@ import { Route, Redirect } from 'react-router-dom';
 import { auth, handleUserProfile } from './firebase/utils';
 
 import WithAuth from './hoc/WithAuth';
+import WithAdminAuth from './hoc/WithAdminAuth';
 
 import Navbar from './components/Navbar';
 import Homepage from './components/pages/Homepage';
@@ -10,6 +11,7 @@ import Registration from './components/pages/Registration';
 import Login from './components/pages/Login';
 import Recovery from './components/pages/Recovery';
 import Dashboard from './components/pages/Dashboard';
+import Admin from './components/pages/Admin';
 
 const App = props => {
 	const [currentUser, setCurrentUser] = useState(null);
@@ -68,9 +70,17 @@ const App = props => {
 			<Route
 				path='/dashboard'
 				render={routeProps => (
-					<WithAuth currentUser={currentUser}>
+					<WithAuth {...routeProps} currentUser={currentUser}>
 						<Dashboard />
 					</WithAuth>
+				)}
+			/>
+			<Route
+				path='/admin'
+				render={routeProps => (
+					<WithAdminAuth {...routeProps} currentUser={currentUser}>
+						<Admin />
+					</WithAdminAuth>
 				)}
 			/>
 		</>
