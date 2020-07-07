@@ -5,6 +5,8 @@ import { auth, handleUserProfile } from './firebase/utils';
 import WithAuth from './hoc/WithAuth';
 import WithAdminAuth from './hoc/WithAdminAuth';
 
+import UserContext from './context/UserContext';
+
 import Navbar from './components/Navbar';
 import Homepage from './components/pages/Homepage';
 import Registration from './components/pages/Registration';
@@ -30,47 +32,37 @@ const App = props => {
 
 			setCurrentUser(null);
 		});
-
 		return () => {
 			authListener();
 		};
 	}, []);
 
 	return (
-		<>
-			<Navbar currentUser={currentUser} />
+		<UserContext.Provider value={currentUser}>
+			<Navbar />
+
 			<Route
 				path='/'
 				exact
-				render={routeProps => (
-					<Homepage {...routeProps} currentUser={currentUser} />
-				)}
+				render={routeProps => <Homepage {...routeProps} />}
 			/>
 			<Route
 				path='/register'
 				render={routeProps =>
-					currentUser ? (
-						<Redirect to='/' />
-					) : (
-						<Registration {...routeProps} currentUser={currentUser} />
-					)
+					currentUser ? <Redirect to='/' /> : <Registration {...routeProps} />
 				}
 			/>
 			<Route
 				path='/login'
 				render={routeProps =>
-					currentUser ? (
-						<Redirect to='/' />
-					) : (
-						<Login {...routeProps} currentUser={currentUser} />
-					)
+					currentUser ? <Redirect to='/' /> : <Login {...routeProps} />
 				}
 			/>
 			<Route path='/recovery' render={() => <Recovery />} />
 			<Route
 				path='/dashboard'
 				render={routeProps => (
-					<WithAuth {...routeProps} currentUser={currentUser}>
+					<WithAuth {...routeProps}>
 						<Dashboard />
 					</WithAuth>
 				)}
@@ -78,12 +70,12 @@ const App = props => {
 			<Route
 				path='/admin'
 				render={routeProps => (
-					<WithAdminAuth {...routeProps} currentUser={currentUser}>
+					<WithAdminAuth {...routeProps}>
 						<Admin />
 					</WithAdminAuth>
 				)}
 			/>
-		</>
+		</UserContext.Provider>
 	);
 };
 

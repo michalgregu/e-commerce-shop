@@ -1,14 +1,14 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
 import { Menu } from 'semantic-ui-react';
 import { auth } from './../firebase/utils';
 
 import AdminToolbar from './AdminToolbar';
+import UserContext from '../context/UserContext';
 
-function Navbar(props) {
-	const { currentUser } = props;
-
+const Navbar = () => {
+	const currentUser = useContext(UserContext);
 	const history = useHistory();
 
 	return (
@@ -34,11 +34,6 @@ function Navbar(props) {
 				{!currentUser && (
 					<>
 						<Menu.Item
-							name='My Account'
-							link
-							onClick={() => history.push('/dashboard')}
-						/>
-						<Menu.Item
 							name='Register'
 							link
 							onClick={() => history.push('/register')}
@@ -54,10 +49,6 @@ function Navbar(props) {
 			</Menu.Menu>
 		</StyledMenu>
 	);
-}
-
-Navbar.defaultProps = {
-	currentUser: null,
 };
 
 export default Navbar;

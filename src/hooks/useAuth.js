@@ -1,13 +1,19 @@
-import { useEffect } from 'react';
+import { useEffect, useContext } from 'react';
+import { useHistory } from 'react-router-dom';
+
+import UserContext from '../context/UserContext';
 
 const useAuth = props => {
-	useEffect(() => {
-		if (!props.currentUser) {
-			props.history.push('/login');
-		}
-	}, [props.currentUser]);
+	const history = useHistory();
+	const currentUser = useContext(UserContext);
 
-	return props.currentUser;
+	useEffect(() => {
+		if (!currentUser) {
+			history.push('/login');
+		}
+	}, [currentUser]);
+
+	return currentUser;
 };
 
 export default useAuth;

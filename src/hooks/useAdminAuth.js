@@ -1,17 +1,20 @@
-import { useEffect } from 'react';
+import { useEffect, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
+import UserContext from '../context/UserContext';
 import { checkUserIsAdmin } from '../utils';
 
 const useAdminAuth = props => {
+	const currentUser = useContext(UserContext);
+
 	const history = useHistory();
 
 	useEffect(() => {
-		if (!checkUserIsAdmin(props.currentUser)) {
+		if (!checkUserIsAdmin(currentUser)) {
 			history.push('/login');
 		}
-	}, [props.currentUser]);
+	}, [currentUser]);
 
-	return props.currentUser;
+	return currentUser;
 };
 
 export default useAdminAuth;
