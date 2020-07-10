@@ -14,6 +14,7 @@ import Login from './components/pages/Login';
 import Recovery from './components/pages/Recovery';
 import Dashboard from './components/pages/Dashboard';
 import Admin from './components/pages/Admin';
+import Cart from './components/pages/Cart';
 
 const App = props => {
 	const [currentUser, setCurrentUser] = useState(null);
@@ -58,6 +59,7 @@ const App = props => {
 					currentUser ? <Redirect to='/' /> : <Login {...routeProps} />
 				}
 			/>
+			<Route path='/cart' render={routeProps => <Cart {...routeProps} />} />
 			<Route path='/recovery' render={() => <Recovery />} />
 			<Route
 				path='/dashboard'

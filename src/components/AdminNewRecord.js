@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { Form, Segment, Header } from 'semantic-ui-react';
 import { auth } from '../firebase/utils';
 
-import { addProduct } from '../utils';
+import { addRecord } from '../utils';
 
-function NewProductForm() {
+function AdminNewRecord() {
 	const optionsFormat = [
 		{ key: '7 inch', text: '7 inch', value: '7 inch' },
 		{ key: '12 inch', text: '12 inch', value: '12 inch' },
@@ -32,7 +32,7 @@ function NewProductForm() {
 
 		e.preventDefault();
 
-		addProduct({
+		addRecord({
 			...state,
 			AdminUserUID: auth.currentUser.uid,
 			createdDate: timestamp,
@@ -52,7 +52,7 @@ function NewProductForm() {
 
 	return (
 		<Segment>
-			<Header as='h3'>Add A New Product</Header>
+			<Header as='h3'>Add A New Record</Header>
 			<Form onSubmit={handleSubmit}>
 				<Form.Group>
 					<Form.Input
@@ -149,4 +149,4 @@ function NewProductForm() {
 	);
 }
 
-export default NewProductForm;
+export default AdminNewRecord;

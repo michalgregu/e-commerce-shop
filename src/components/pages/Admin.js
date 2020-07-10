@@ -1,13 +1,15 @@
 import React, { useContext, useState } from 'react';
 import { Menu, Container, Icon, Header, Grid } from 'semantic-ui-react';
-import styled from 'styled-components';
+import { useHistory } from 'react-router-dom';
 
 import { auth } from '../../firebase/utils';
 
 import UserContext from '../../context/UserContext';
-import NewProductForm from '../NewProductForm';
+import AdminNewRecord from '../AdminNewRecord';
+import AdminManageRecords from '../AdminManageRecords';
 
 function Admin() {
+	const history = useHistory();
 	const currentUser = useContext(UserContext);
 	const [active, setActive] = useState('');
 
@@ -16,7 +18,7 @@ function Admin() {
 			<Grid container>
 				<Grid.Column width={4}>
 					<Menu vertical inverted pointing>
-						<Menu.Item active={active === 'inbox'} name='inbox'>
+						<Menu.Item>
 							<Container textAlign='center'>
 								<Icon name='user circle outline' size='huge' />
 								<Header as='h3' inverted>
@@ -29,12 +31,17 @@ function Admin() {
 							active={active === 'home'}
 							link
 							name='home'
-							onClick={() => setActive('home')}></Menu.Item>
+							onClick={() => history.push('/')}></Menu.Item>
 						<Menu.Item
-							active={active === 'add product'}
+							active={active === 'add record'}
 							link
-							name='add product'
-							onClick={() => setActive('add product')}></Menu.Item>
+							name='add a record'
+							onClick={() => setActive('add record')}></Menu.Item>
+						<Menu.Item
+							active={active === 'manage records'}
+							link
+							name='manage records'
+							onClick={() => setActive('manage records')}></Menu.Item>
 
 						<Menu.Item
 							active={active === 'sign out'}
@@ -43,9 +50,17 @@ function Admin() {
 							onClick={() => auth.signOut()}></Menu.Item>
 					</Menu>
 				</Grid.Column>
-				<Grid.Column width={12}>
-					{active === 'add product' && <NewProductForm />}
-				</Grid.Column>
+
+				{active === 'add record' && (
+					<Grid.Column width={12}>
+						<AdminNewRecord />
+					</Grid.Column>
+				)}
+				{active === 'manage records' && (
+					<Grid.Column width={12}>
+						<AdminManageRecords />
+					</Grid.Column>
+				)}
 			</Grid>
 		</>
 	);

@@ -45,7 +45,7 @@ const Navbar = () => {
 						/>
 					</>
 				)}
-				<Menu.Item name='My Cart' link />
+				<Menu.Item name='My Cart' link onClick={() => history.push('/cart')} />
 			</Menu.Menu>
 		</StyledMenu>
 	);
