@@ -1,13 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {
-	Button,
-	Icon,
-	Image,
-	Item,
-	Label,
-	Segment,
-	Header,
-} from 'semantic-ui-react';
+import { Button, Icon, Item, Label, Segment, Header } from 'semantic-ui-react';
 import { fetchRecords, deleteRecord } from '../utils';
 
 function AdminManageRecords() {

@@ -1,14 +1,16 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
-import { Menu } from 'semantic-ui-react';
+import { Menu, Label } from 'semantic-ui-react';
 import { auth } from './../firebase/utils';
 
 import AdminToolbar from './AdminToolbar';
 import UserContext from '../context/UserContext';
+import CartContext from '../context/CartContext';
 
 const Navbar = () => {
 	const currentUser = useContext(UserContext);
+	const [cart, setCart] = useContext(CartContext);
 	const history = useHistory();
 
 	return (
@@ -45,7 +47,14 @@ const Navbar = () => {
 						/>
 					</>
 				)}
-				<Menu.Item name='My Cart' link onClick={() => history.push('/cart')} />
+				<Menu.Item link onClick={() => history.push('/cart')}>
+					My Cart
+					{cart.length === 0 ? null : (
+						<StyledLabel color='teal' floating>
+							{cart.length}
+						</StyledLabel>
+					)}
+				</Menu.Item>
 			</Menu.Menu>
 		</StyledMenu>
 	);
@@ -55,4 +64,8 @@ export default Navbar;
 
 const StyledMenu = styled(Menu)`
 	padding: 0 300px;
+`;
+
+const StyledLabel = styled(Label)`
+	transform: translateY(100%);
 `;

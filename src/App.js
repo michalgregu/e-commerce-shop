@@ -6,6 +6,7 @@ import WithAuth from './hoc/WithAuth';
 import WithAdminAuth from './hoc/WithAdminAuth';
 
 import UserContext from './context/UserContext';
+import CartContext from './context/CartContext';
 
 import Navbar from './components/Navbar';
 import Homepage from './components/pages/Homepage';
@@ -18,6 +19,7 @@ import Cart from './components/pages/Cart';
 
 const App = props => {
 	const [currentUser, setCurrentUser] = useState(null);
+	const [cart, setCart] = useState([]);
 
 	useEffect(() => {
 		const authListener = auth.onAuthStateChanged(async userAuth => {
@@ -40,43 +42,45 @@ const App = props => {
 
 	return (
 		<UserContext.Provider value={currentUser}>
-			<Navbar />
+			<CartContext.Provider value={[cart, setCart]}>
+				<Navbar />
 
-			<Route
-				path='/'
-				exact
-				render={routeProps => <Homepage {...routeProps} />}
-			/>
-			<Route
-				path='/register'
-				render={routeProps =>
-					currentUser ? <Redirect to='/' /> : <Registration {...routeProps} />
-				}
-			/>
-			<Route
-				path='/login'
-				render={routeProps =>
-					currentUser ? <Redirect to='/' /> : <Login {...routeProps} />
-				}
-			/>
-			<Route path='/cart' render={routeProps => <Cart {...routeProps} />} />
-			<Route path='/recovery' render={() => <Recovery />} />
-			<Route
-				path='/dashboard'
-				render={routeProps => (
-					<WithAuth {...routeProps}>
-						<Dashboard />
-					</WithAuth>
-				)}
-			/>
-			<Route
-				path='/admin'
-				render={routeProps => (
-					<WithAdminAuth {...routeProps}>
-						<Admin />
-					</WithAdminAuth>
-				)}
-			/>
+				<Route
+					path='/'
+					exact
+					render={routeProps => <Homepage {...routeProps} />}
+				/>
+				<Route
+					path='/register'
+					render={routeProps =>
+						currentUser ? <Redirect to='/' /> : <Registration {...routeProps} />
+					}
+				/>
+				<Route
+					path='/login'
+					render={routeProps =>
+						currentUser ? <Redirect to='/' /> : <Login {...routeProps} />
+					}
+				/>
+				<Route path='/cart' render={routeProps => <Cart {...routeProps} />} />
+				<Route path='/recovery' render={() => <Recovery />} />
+				<Route
+					path='/dashboard'
+					render={routeProps => (
+						<WithAuth {...routeProps}>
+							<Dashboard />
+						</WithAuth>
+					)}
+				/>
+				<Route
+					path='/admin'
+					render={routeProps => (
+						<WithAdminAuth {...routeProps}>
+							<Admin />
+						</WithAdminAuth>
+					)}
+				/>
+			</CartContext.Provider>
 		</UserContext.Provider>
 	);
 };

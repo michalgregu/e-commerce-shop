@@ -1,33 +1,27 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
-import { Query } from 'react-apollo';
 import { Grid } from 'semantic-ui-react';
 
-import PRODUCTS from './products/index';
 import ProductCard from './ProductCard';
+import { fetchRecords } from '../utils';
 
 function ProductList() {
+	const [recordsList, setRecordsList] = useState([]);
+
+	useEffect(() => {
+		(async function fetchData() {
+			const records = await fetchRecords();
+			setRecordsList(records);
+		})();
+	}, []);
 	return (
-		<Query query={PRODUCTS}>
-			{({ loading, error, data }) => {
-				if (loading) return <div>Fetching</div>;
-				if (error) return <div>Error</div>;
-
-				const items = data.productsList.items;
-
-				return (
-					// <Container>
-					<Grid container relaxed columns={4}>
-						{items.map(item => (
-							<Grid.Column key={item.id}>
-								<ProductCard item={item} />
-							</Grid.Column>
-						))}
-					</Grid>
-					// </Container>
-				);
-			}}
-		</Query>
+		<Grid container relaxed columns={4}>
+			{recordsList.map(record => (
+				<Grid.Column key={record.documentID}>
+					<ProductCard record={record} />
+				</Grid.Column>
+			))}
+		</Grid>
 	);
 }
 

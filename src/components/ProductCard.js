@@ -1,43 +1,33 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import ReactAudioPlayer from 'react-audio-player';
-
 import { Card, Icon, Image, Button } from 'semantic-ui-react';
 
-function ProductCard({ item }) {
+import CartContext from '../context/CartContext';
+
+function ProductCard({ record }) {
+	const [cart, setCart] = useContext(CartContext);
 	const {
-		author,
-		title,
+		artist,
+		audioUrl,
 		format,
 		genre,
+		imageUrl,
 		price,
-		newStock,
-		outOfStock,
-		image,
-		audio,
-	} = item;
+		stock,
+		title,
+	} = record;
+
+	const addToCart = () => {
+		setCart([...cart, record]);
+	};
 
 	return (
-		<StyledCard centered raised>
-			<Image
-				src={image.downloadUrl}
-				wrapped
-				ui={false}
-				label={
-					newStock
-						? {
-								as: 'a',
-								content: 'New!',
-								color: 'blue',
-								size: 'large',
-								ribbon: true,
-						  }
-						: false
-				}
-			/>
+		<Card centered raised>
+			<Image src={imageUrl} wrapped ui={false} />
 			<Card.Content>
 				<Card.Header>{title}</Card.Header>
-				<Card.Header>by {author}</Card.Header>
+				<Card.Header>by {artist}</Card.Header>
 				<Card.Meta>
 					<span className='date'>genre: {genre}</span>
 				</Card.Meta>
@@ -46,30 +36,30 @@ function ProductCard({ item }) {
 				</Card.Meta>
 				<StyledReactAudioPlayer
 					controlsList='nodownload'
-					src={audio.downloadUrl}
+					src={audioUrl}
 					controls
 				/>
 			</Card.Content>
 			<Card.Content extra>
 				<Button.Group floated='left'>
-					<Button animated='vertical' size='large' style={{ width: '100px' }}>
+					<Button
+						onClick={addToCart}
+						animated='vertical'
+						size='large'
+						style={{ width: '100px' }}>
 						<Button.Content hidden>Add To Cart</Button.Content>
 						<Button.Content visible>
 							<Icon name='shop' />
 						</Button.Content>
 					</Button>
 				</Button.Group>
-				<StyledSpan>£ {outOfStock ? 'Out of Stock' : price}</StyledSpan>
+				<StyledSpan>£ {stock === '0' ? 'Out of Stock' : price}</StyledSpan>
 			</Card.Content>
-		</StyledCard>
+		</Card>
 	);
 }
 
 export default ProductCard;
-
-const StyledCard = styled(Card)`
-	position: relative;
-`;
 
 const StyledSpan = styled.span`
 	transform: translateY(5px);
